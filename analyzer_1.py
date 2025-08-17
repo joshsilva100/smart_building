@@ -68,7 +68,7 @@ def main():
     day = input("Enter desired day. (Choose from 1-31.): ")
     month = input("Enter desired month. (Choose from 1-12.): ")
     
-    for hour in range(23):
+    for hour in range(24):
         try:
             hour_file = str(hour)
             file_name = f"{year}-{month}-{day}_{hour_file}.txt"
@@ -85,7 +85,7 @@ def main():
         except:
             continue
     #print("\n\nAHT20 Temp Avg: ", t_A_list, "\nAHT20 Humid Avg: ", h_A_list, "\n\nDHT11 Temp Avg: ", t_D_list, "\nDHT11 Humid Avg: ", h_D_list)
-    time = list(range(0,1))
+    time = list(range(0,24)) 
 
     plot_temp = f"Hourly Temperature Average for {year}-{month}-{day}"
     name_temp = f"temperature_comparison_{year}-{month}-{day}.png"
