@@ -69,7 +69,8 @@ def main():
     year = input("Enter desired year. (Format as 20XX.): ")
     day = input("Enter desired day. (Choose from 1-31.): ")
     month = input("Enter desired month. (Choose from 1-12.): ")
-    
+    #could add error thing here for date and month gw 
+      
     for hour in range(23):
         try:
             hour_file = str(hour)
@@ -128,4 +129,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
