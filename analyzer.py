@@ -12,9 +12,9 @@ Process/average Data
           > Columns: 'AHT20 Temp', 'AHT20 Humidity', 'DHT11 Temp', 'DHT11 Humidity'.
 '''
 def Read_In_txt(file): 
-        temp_AHT20, humid_AHT20, temp_DHT11, humid_DHT11 = 0, 0, 0, 0
-        read_lines  = file.readlines()
+        temp_AHT20, humid_AHT20, temp_DHT11, humid_DHT11 = 0, 0, 0, 0 
         t_A, h_A, t_D, h_D = [], [], [], []
+        read_lines  = file.readlines()
         for line_N in read_lines:
             line_N      = line_N.strip()
             sensor_data = line_N.split(',')
@@ -41,7 +41,7 @@ def Read_In_txt(file):
         t_D_avg = sum(t_D)/len(t_D)
         h_D_avg = sum(h_D)/len(h_D)
 
-        return t_A, h_A, t_D, h_D, t_A_avg, h_A_avg, t_D_avg, h_D_avg,
+        return t_A_avg, h_A_avg, t_D_avg, h_D_avg,
 
 
 '''
@@ -63,7 +63,6 @@ Save plots
 '''
 
 def main():
-    temp_A, humid_A, temp_D, humid_D = [], [], [], []
     temp_A_avg, humid_A_avg, temp_D_avg, humid_D_avg = 0, 0, 0, 0
     t_A_list, h_A_list, t_D_list, h_D_list = [], [], [], []
     year = input("Enter desired year. (Format as 20XX.): ")
@@ -71,12 +70,12 @@ def main():
     month = input("Enter desired month. (Choose from 1-12.): ")
     #could add error thing here for date and month gw 
       
-    for hour in range(23):
+    for hour in range(24):
         try:
             hour_file = str(hour)
             file_name = f"{year}-{month}-{day}_{hour_file}.txt"
             with open(file_name,"r") as file:
-                temp_A, humid_A, temp_D, humid_D, temp_A_avg, humid_A_avg, temp_D_avg, humid_D_avg = Read_In_txt(file)
+                temp_A_avg, humid_A_avg, temp_D_avg, humid_D_avg = Read_In_txt(file)
             
             t_A_list.append(temp_A_avg)
             h_A_list.append(humid_A_avg)
@@ -88,7 +87,7 @@ def main():
         except:
             continue
     #print("\n\nAHT20 Temp Avg: ", t_A_list, "\nAHT20 Humid Avg: ", h_A_list, "\n\nDHT11 Temp Avg: ", t_D_list, "\nDHT11 Humid Avg: ", h_D_list)
-    time = list(range(0,23))
+    time = list(range(0,24))
 
     plot_temp = f"Hourly Temperature Average for {year}-{month}-{day}"
     name_temp = f"temperature_comparison_{year}-{month}-{day}.png"
