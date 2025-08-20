@@ -63,7 +63,7 @@ def thejob(file, serialname): #the job to occur every 30 seconds in this case th
     file.flush()
     print ("Interval Started at: ", datetime.datetime.now(), "and printed: ", now)
 
-def serial_ports():
+def serial_ports(): # finds all serial ports connected to the computer and puts them in a list of portnames
     """ Lists serial port names
 
         :raises EnvironmentError:
@@ -97,23 +97,23 @@ def serial_ports():
 print("Hey Dr. Guo, Let's go gambling!")
 
 name_serial_port = serial_ports()
-print("The following serial port(s) detected: ", name_serial_port)
+print("The following serial port(s) detected: ", name_serial_port) # testing and to help user input correctly
 print("Current number of Serial ports: ", len(name_serial_port))
 
 
-if len(name_serial_port) == 1:
+if len(name_serial_port) == 1: #finds the port name and if only one serial port is detected puts it in for you 
     print("Portname for the one port: ", name_serial_port[0])
     serialcomm = serial.Serial(port=name_serial_port[0],baudrate=9600,timeout=1) # Replace portname here as fit 
 else :
-    user_input = input("Multiple Port Detected\nEnter the Arduino Port: ")
+    user_input = input("Error detecting port\nEnter the Arduino Port: ") # if port not detected or too many copy one that should be shown or find it and input will make better
     serialcomm = serial.Serial(port=user_input,baudrate=9600,timeout=1) 
 time.sleep(2)
 
 schedule.clear()
 
-print("Started at: ", datetime.datetime.now())
+print("Started at: ", datetime.datetime.now()) # for testing 
 interval(serialcomm)
 while True:
     hour_break()
-    print ("Break ended at: ", datetime.datetime.now())
+    print ("Break ended at: ", datetime.datetime.now()) # for testing
     interval(serialcomm) 
