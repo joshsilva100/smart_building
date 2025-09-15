@@ -1,5 +1,6 @@
-## Christopher "Joe" Horne
-## HVAC/Smart Building - Task 3
+## Christopher "Joe" Horne, Joshua Silva
+## HVAC/Smart Building - Task 3 
+## Data Analysis
 import matplotlib.pyplot as plt
 
 # .txt file columns
@@ -73,7 +74,7 @@ def main():
     for hour in range(24):
         try:
             hour_file = str(hour)
-            file_name = f"{year}-{month}-{day}_{hour_file}.txt"
+            file_name = f"data/{year}-{month}-{day}_{hour_file}.txt"
             with open(file_name,"r") as file:
                 temp_A_avg, humid_A_avg, temp_D_avg, humid_D_avg = Read_In_txt(file)
             
@@ -90,9 +91,9 @@ def main():
     time = list(range(0,24))
 
     plot_temp = f"Hourly Temperature Average for {year}-{month}-{day}"
-    name_temp = f"temperature_comparison_{year}-{month}-{day}.png"
+    name_temp = f"data/temperature_comparison_{year}-{month}-{day}.png"
     plot_humid = f"Hourly Humidity Average for {year}-{month}-{day}"
-    name_humid = f"humidity_comparison_{year}-{month}-{day}.png"
+    name_humid = f"data/humidity_comparison_{year}-{month}-{day}.png"
 
     try:
         # AHT20 vs DHT11 - Temperature
