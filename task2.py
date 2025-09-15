@@ -1,3 +1,6 @@
+## En "Grace" Wang, Colby Mcneely, Joshua Silva
+## HVAC/Smart Building - Task 2
+## Data Logging
 
 import serial
 import time
@@ -38,7 +41,7 @@ def interval(serialname):
     now = datetime.datetime.now()
     end_time = now + datetime.timedelta(minutes=5.1) 
 
-    file_name = f"{now.year}-{now.month}-{now.day}_{now.hour}.txt"
+    file_name = f"data/{now.year}-{now.month}-{now.day}_{now.hour}.txt"
     with open(file_name,"a") as file: 
         file.write(f"Timestamp,AHT20_Temp_C,AHT20_Hum_%,DHT11_Temp_C,DHT11_Hum_%\n")
         schedule.every(29.97).seconds.do(thejob, file=file, serialname=serialname)
