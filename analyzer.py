@@ -1,7 +1,7 @@
 ## Christopher "Joe" Horne, Joshua Silva
 ## HVAC/Smart Building - Task 3 
 ## Data Analysis
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
 
 # .txt file columns
 # [AHT Temp, AHT Hum, DHT Temp, DHT Hum]
@@ -34,15 +34,15 @@ def Read_In_txt(file):
                     t_D.append(temp_DHT11)
                 if humid_DHT11 != 0:
                     h_D.append(humid_DHT11)
-            except:
-                 continue
+            except: 
+                continue
 
         t_A_avg = sum(t_A)/len(t_A)
         h_A_avg = sum(h_A)/len(h_A)
         t_D_avg = sum(t_D)/len(t_D)
         h_D_avg = sum(h_D)/len(h_D)
 
-        return t_A_avg, h_A_avg, t_D_avg, h_D_avg,
+        return t_A_avg, h_A_avg, t_D_avg, h_D_avg
 
 
 '''
@@ -74,7 +74,7 @@ def main():
     for hour in range(24):
         try:
             hour_file = str(hour)
-            file_name = f"data/{year}-{month}-{day}_{hour_file}.txt"
+            file_name = f"data/{year}-{month}-{day}_{hour_file}.txt" 
             with open(file_name,"r") as file:
                 temp_A_avg, humid_A_avg, temp_D_avg, humid_D_avg = Read_In_txt(file)
             
@@ -85,7 +85,11 @@ def main():
 
             #print("\nAHT20 Temps [deg C]: ", temp_A, "\nAHT20 Humidity [%]:  ", humid_A, "\nDHT11 Temps [deg C]: ", temp_D, "\nDHT11 Humidity [%]:  ", humid_D)
             #print("\nAHT20 Temp Average:  ", temp_A_avg, "\nAHT20 Humid Average: ", humid_A_avg, "\nDHT11 Temp Average:  ", temp_D_avg, "\nAHT20 Humid Average: ", humid_D_avg, "\n\n")
-        except:
+        except: 
+            t_A_list.append(None)
+            h_A_list.append(None)
+            t_D_list.append(None)
+            h_D_list.append(None)
             continue
     #print("\n\nAHT20 Temp Avg: ", t_A_list, "\nAHT20 Humid Avg: ", h_A_list, "\n\nDHT11 Temp Avg: ", t_D_list, "\nDHT11 Humid Avg: ", h_D_list)
     time = list(range(0,24))
