@@ -1,0 +1,21 @@
+#include <WiFi.h>
+
+const char* ssid = "HVACR"; //Our wifi/hotspot name :]
+const char* password = "INNO4990"; // password to connect to the hotspot
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+
+  Serial.print("Connecting...");
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nConnected!");
+    Serial.print("ESP32 IP Address: ");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("\n Failed to connect. Check SSID or password.");
+  }
+}
+
+void loop() {}
