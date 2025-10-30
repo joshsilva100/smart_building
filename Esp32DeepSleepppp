@@ -1,0 +1,35 @@
+#include <esp_sleep.h>
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+
+  Serial.println("ESP32 going to deep sleep for 30 minutes...");
+
+  /* the time deep sleep is active or how long it goes to sleep
+  const uint32_t is for how long or what basically the max time we can delay it for. 
+  In this case this allow us to put the esp32 to deep sleep up to 70 mins 
+  which is more than enough base on what we doing
+  */
+  const uint32_t sleepTimeSec = 30 * 60; // 30mins = 1800secs (30min * 60sec)
+  const uint32_t sleepTimeUs = sleepTimeSec * 1000000ULL; 
+
+  // This is the timer for the Esp32 to wake up
+  esp_sleep_enable_timer_wakeup(sleepTimeUs); 
+
+  Serial.println("Entering deep sleep now."); 
+  Serial.flush();
+
+  // goes to deep sleep
+  esp_deep_sleep_start();
+}
+
+void loop() {
+  
+}
+/*
+          This is for a reference if more things want to be added in deep sleep mode in future
+
+https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/sleep_modes.html
+
+*/
