@@ -16,16 +16,19 @@
  */ 
 
 /* Libraries */
+#include <WiFi.h>
 #include <Adafruit_HDC302x.h> 
 #include <SensirionI2cScd4x.h>
 #include <Wire.h> 
 #include "Adafruit_VEML7700.h" 
 #include <ESP_I2S.h> 
-#include <WiFi.h>
+
 
 /* Wifi Init */
 const char* ssid = "HVACR"; //Our wifi/hotspot name :]
-const char* password = "INNO4990"; // password to connect to the hotspot
+const char* password = "INNO4990~"; // password to connect to the hotspot
+const uint16_t port = 5400;
+const char* host = "10.42.0.1"; 
 
 /* HDC3022 Init */
 Adafruit_HDC302x hdc = Adafruit_HDC302x(); 
@@ -54,9 +57,6 @@ I2SClass i2s;
 void setup() {
   Serial.begin(115200); 
 
-  /* Wifi Setup */ 
-  WiFi.begin(ssid, password);
-
   /* HDC3022 Setup */
   hdc.begin(0x44, &Wire); //Default I2C address for HDC3022  
 
@@ -72,9 +72,42 @@ void setup() {
   /* SPH0645 Setup */ 
   i2s.setPins(I2S_BCLK, I2S_LRC, -1, I2S_DIN); // Use suggested pins. We do not need to write data to the sensor, give bogus value
   i2s.begin(mode, sampleRate, bps, slot); // start I2S at the sample rate with 32-bits per sample
+
+  /* Wifi Setup */ 
+  WiFi.begin(ssid, password);
+
+  Serial.print("Connecting...");
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nConnected!");
+    Serial.print("ESP32 IP Address: ");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("\n Failed to connect. Check SSID or password.");
+  }
 }
 
 void loop() {
+  WiFiClient client; 
+
+  // WiFi.begin(ssid, password);
+
+  // Serial.print("Connecting...");
+
+  // if (WiFi.status() == WL_CONNECTED) {
+  //   Serial.println("\nConnected!");
+  //   Serial.print("ESP32 IP Address: ");
+  //   Serial.println(WiFi.localIP());
+  // } else {
+  //   Serial.println("\n Failed to connect. Check SSID or password.");
+  // }
+
+  if (!client.connect(host,port)){
+    Serial.println("\nCould not connect!");
+    delay(3000);
+    return;
+  }
+  Serial.println("\nConnected!");
   /* HDC3022 Readings */
   double temp = 0.0;
   double humid = 0.0;
@@ -108,7 +141,23 @@ void loop() {
 
   Serial.print(noise);
   Serial.print(F("\n")); 
+  /* Sent Data */
+  client.printf("%f,%f,%u,%f,%i",temp,humid,co2_ppm,lux,noise); // In Celsius by default 
+  // client.print(F(","));
+  // client.print(humid); 
+  // client.print(F(",")); 
 
+  // client.print(co2_ppm); 
+  // client.print(F(",")); 
+
+  // client.print(lux); 
+  // client.print(F(",")); 
+
+  // client.print(noise);
+  // client.print(F("\n")); 
+
+  Serial.println("\nDisconnecting...");
+  client.stop();
   delay(5000); // Read at slowest sensor (SCD-41 every 5 seconds, 30 at low power)
   
 } 
