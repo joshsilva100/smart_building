@@ -12,7 +12,8 @@
  *            https://github.com/Sensirion/arduino-i2c-scd4x/tree/master/src
  *            https://github.com/adafruit/Adafruit_VEML7700 
  *            https://docs.espressif.com/projects/arduino-esp32/en/latest/api/i2s.html#sample-code 
- *            https://cdn-learn.adafruit.com/assets/assets/000/123/406/original/adafruit_products_Adafruit_ESP32_Feather_V2_Pinout.png?1691707257
+ *            https://cdn-learn.adafruit.com/assets/assets/000/123/406/original/adafruit_products_Adafruit_ESP32_Feather_V2_Pinout.png?1691707257     
+              https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/sleep_modes.html
  */ 
 
 /* Libraries */
@@ -22,7 +23,7 @@
 #include <Wire.h> 
 #include "Adafruit_VEML7700.h" 
 #include <ESP_I2S.h> 
-
+#include <esp_sleep.h> 
 
 /* Wifi Init */
 const char* ssid = "HVACR"; //Our wifi/hotspot name :]
@@ -159,5 +160,17 @@ void loop() {
   Serial.println("\nDisconnecting...");
   client.stop();
   delay(5000); // Read at slowest sensor (SCD-41 every 5 seconds, 30 at low power)
-  
+
+  //setup for ESP32 deepsleep/wakeup
+  Serial.println("ESP32 going to deep sleep for 30 minutes...");
+  const uint32_t sleepTimeSec = 30 * 60; // 30mins = 1800secs
+  const uint64_t sleepTimeUs = (uint64_t)sleepTimeSec * 1000000ULL; 
+
+  // This is the timer for the Esp32 to wake up
+  esp_sleep_enable_timer_wakeup(sleepTimeUs); 
+  Serial.println("Entering deep sleep now."); 
+  Serial.flush();
+
+   // goes to deep sleep
+  esp_deep_sleep_start();
 } 
